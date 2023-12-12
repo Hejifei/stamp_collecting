@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>邮票展示</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .stamp {
+      width: 50px;
+      height: 60px;
+      background-color: #3498db;
+      position: absolute;
+      opacity: 0;
+      transform: translateY(20px) rotate(0deg) scale(0);
+      animation: stampAnimation 0.5s ease-in-out forwards;
+    }
+
+    @keyframes stampAnimation {
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(360deg) scale(1);
+      }
+    }
+    .content {
+      height: 100vh;
+}
+  </style>
+</head>
+<body>
+  <div class="content">
+
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // 获取屏幕宽度和高度
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const stampWidth = 50
+    const stampHeight = 60
+
+    // 随机生成邮票的数量
+    const stampCount = 11;
+
+    const getRandom = (value) => {
+      return Math.random() * 0.1 + value
+    }
+    const positionList = [
+      {
+        x: Math.floor(getRandom(0.2) * (screenWidth - stampWidth)),
+        y: Math.floor(getRandom(0.15) * (screenHeight - stampHeight)),
+      },
+      {
+        x: Math.floor(getRandom(0.5) * (screenWidth - stampWidth)),
+        y: Math.floor(getRandom(0.2) * (screenHeight - stampHeight)),
+      },
+      {
+        x: Math.floor(getRandom(0.8) * (screenWidth - stampWidth)),
+        y: Math.floor(getRandom(0.15) * (screenHeight - stampHeight)),
+      },
+
+      {
+        x: Math.floor(getRandom(0.2) * (screenWidth - stampWidth)),
+        y: Math.floor(getRandom(0.32) * (screenHeight - stampHeight)),
+      },
+      {
+        x: Math.floor(getRandom(0.75) * (screenWidth - stampWidth)),
+        y: Math.floor(getRandom(0.32) * (screenHeight - stampHeight)),
+      },
+
+      {
+        x: Math.floor(getRandom(0.2) * (screenWidth - stampWidth)),
+        y: Math.floor(getRandom(0.7) * (screenHeight - stampHeight)),
+      },
+      {
+        x: Math.floor(getRandom(0.5) * (screenWidth - stampWidth)),
+        y: Math.floor(getRandom(0.7) * (screenHeight - stampHeight)),
+      },
+      {
+        x: Math.floor(getRandom(0.8) * (screenWidth - stampWidth)),
+        y: Math.floor(getRandom(0.7) * (screenHeight - stampHeight)),
+      },
+
+      {
+        x: Math.floor(getRandom(0.2) * (screenWidth - stampWidth)),
+        y: Math.floor(getRandom(0.85) * (screenHeight - stampHeight)),
+      },
+      {
+        x: Math.floor(getRandom(0.5) * (screenWidth - stampWidth)),
+        y: Math.floor(getRandom(0.86) * (screenHeight - stampHeight)),
+      },
+      {
+        x: Math.floor(getRandom(0.8) * (screenWidth - stampWidth)),
+        y: Math.floor(getRandom(0.85) * (screenHeight - stampHeight)),
+      },
+    ]
+
+
+    for (let i = 0; i < stampCount; i++) {
+      createStamp(i);
+    }
+
+    
+    function createStamp(index) {
+      // 创建邮票元素
+      const stamp = document.createElement('div');
+      stamp.classList.add('stamp');
+
+      // 设置初始位置和动画延迟
+      const {
+        x: randomX,
+        y: randomY,
+      } = positionList[index]
+      // const randomX = Math.floor(Math.random() * (screenWidth - stampWidth));
+      // const randomY = Math.floor(Math.random() * (screenHeight - stampHeight));
+      stamp.style.left = `${randomX}px`;
+      stamp.style.top = `${randomY}px`;
+      
+      // 随机生成最后停止的旋转角度
+      const finalRotation = Math.floor((Math.random() + 0.5) * 360);
+      // const finalScale = Math.random() + 0.5; // 缩放比例在0.5到1.5之间
+      const finalScale = 1; // 缩放比例在0.5到1.5之间
+      stamp.style.animation += `rotateStamp${index} ${0.5}s linear forwards`;
+      stamp.style.animationDelay = `${index * 0.2}s`; // 根据索引设置延迟，以便按顺序出现
+
+      const style = document.createElement('style')
+      style.setAttribute('type', 'text/css')
+      style.innerHTML = `@keyframes rotateStamp${index} { to { transform: translateY(0) rotate(${finalRotation}deg) scale(${finalScale}); opacity: 1; } }`;
+      document.getElementsByTagName('HEAD')[0].appendChild(style)
+      // 将邮票添加到页面中
+      document.body.appendChild(stamp);
+    }
+  });
+
+  </script>
+</body>
+</html>
+
+    <!-- stamp.style.animation += `, rotateScaleStamp${index} ${0.5 + index * 0.2}s linear forwards`;
+    document.styleSheets[0].insertRule(`@keyframes rotateScaleStamp${index} { to { transform: rotate(${finalRotation}deg) scale(${finalScale}); } }`, 0); -->
